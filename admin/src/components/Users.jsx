@@ -4,7 +4,9 @@ import axios from "axios";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
   const [error, setError] = useState(null);
+  const [search, setSearch] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,6 +23,7 @@ const Users = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUsers(response.data);
+        setFilteredUsers(response.data);
       } catch (error) {
         console.error("Error fetching users:", error);
         setError(
@@ -44,6 +47,7 @@ const Users = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUsers(users.filter((user) => user.id !== id));
+      setFilteredUsers(filteredUsers.filter((user) => user.id !== id));
     } catch (error) {
       console.error("Error deleting user:", error);
       setError(
@@ -61,6 +65,17 @@ const Users = () => {
     navigate(`/messages/${id}`);
   };
 
+  const handleSearch = (e) => {
+    const value = e.target.value;
+    setSearch(value);
+    const filtered = users.filter(
+      (user) =>
+        user.username.toLowerCase().includes(value.toLowerCase()) ||
+        user.id.toString().includes(value)
+    );
+    setFilteredUsers(filtered);
+  };
+
   return (
     <div className="container mx-auto p-4">
       <div className="flex justify-between items-center mb-4">
@@ -72,6 +87,13 @@ const Users = () => {
           Logout
         </button>
       </div>
+      <input
+        type="text"
+        placeholder="Search by ID or Username"
+        value={search}
+        onChange={handleSearch}
+        className="mb-4 p-2 border rounded"
+      />
       {error && <div className="text-red-500 mb-4">{error}</div>}
       <table className="min-w-full bg-white">
         <thead>
@@ -82,7 +104,7 @@ const Users = () => {
           </tr>
         </thead>
         <tbody>
-          {users.map((user) => (
+          {filteredUsers.map((user) => (
             <tr
               key={user.id}
               onClick={() => handleUserClick(user.id)}

@@ -1,11 +1,16 @@
-// backend/controllers/authController.js
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 
 // Register a new user
 export const register = async (req, res) => {
   try {
-    const { username, email, password, confirmPassword } = req.body;
+    const {
+      username,
+      email,
+      password,
+      confirmPassword,
+      isAdmin = false,
+    } = req.body;
 
     if (password !== confirmPassword) {
       return res.status(400).json({ message: "Passwords do not match" });
@@ -21,10 +26,10 @@ export const register = async (req, res) => {
       return res.status(400).json({ message: "Email already registered" });
     }
 
-    const user = await User.create(username, email, password);
+    const user = await User.create(username, email, password, isAdmin);
 
     const token = jwt.sign(
-      { id: user.id, username: user.username },
+      { id: user.id, username: user.username, isAdmin: user.is_admin },
       process.env.JWT_SECRET,
       {
         expiresIn: "1h",
@@ -33,7 +38,12 @@ export const register = async (req, res) => {
 
     res.status(201).json({
       token,
-      user: { id: user.id, username: user.username, email: user.email },
+      user: {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        isAdmin: user.is_admin,
+      },
     });
   } catch (err) {
     res.status(500).json({ error: err.message });

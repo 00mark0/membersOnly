@@ -30,7 +30,7 @@ function Home() {
       <h2 className="text-2xl font-bold mb-4">Message Board</h2>
       {error && <div className="text-red-500 mb-4">{error}</div>}
       {user && <MessageForm setMessages={setMessages} />}
-      <MessageBoard messages={messages} user={user} />
+      <MessageBoard messages={messages} setMessages={setMessages} />
     </div>
   );
 }

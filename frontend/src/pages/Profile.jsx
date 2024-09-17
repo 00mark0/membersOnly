@@ -1,12 +1,13 @@
 // src/pages/Profile.jsx
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 
 function Profile() {
   const { id } = useParams();
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [messages, setMessages] = useState([]);
   const [error, setError] = useState(null);
   const [profileUser, setProfileUser] = useState(null);
@@ -41,9 +42,30 @@ function Profile() {
       }
     };
 
-    fetchMessages();
-    fetchUser();
-  }, [id, user.token]);
+    if (id && user) {
+      fetchMessages();
+      fetchUser();
+    } else {
+      setError("User ID is undefined or user is not authenticated");
+    }
+  }, [id, user]);
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/");
+    }
+  }, [user, navigate]);
+
+  const handleDelete = async (messageId) => {
+    try {
+      await axios.delete(`http://localhost:3000/messages/${messageId}`, {
+        headers: { Authorization: `Bearer ${user.token}` },
+      });
+      setMessages(messages.filter((message) => message.id !== messageId));
+    } catch (err) {
+      setError(err.response ? err.response.data.message : "An error occurred");
+    }
+  };
 
   if (!user) {
     return <div>Loading...</div>;
@@ -62,6 +84,14 @@ function Profile() {
             <p className="text-gray-500 text-sm">
               {new Date(message.created_at).toLocaleString()}
             </p>
+            {user.id === message.user_id && (
+              <button
+                onClick={() => handleDelete(message.id)}
+                className="bg-red-500 text-white p-2 rounded"
+              >
+                Delete
+              </button>
+            )}
           </div>
         ))}
       </div>

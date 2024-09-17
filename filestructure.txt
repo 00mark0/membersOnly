@@ -66,8 +66,6 @@
             |-- UserMessages.jsx
         |-- context
             |-- AuthContext.jsx
-        |-- hooks
-            |-- useAuth.jsx
         |-- index.css
         |-- main.jsx
         |-- pages
@@ -76,7 +74,5 @@
             |-- Profile.jsx
             |-- Register.jsx
             |-- UserMessages.jsx
-        |-- services
-            |-- api.js
     |-- tailwind.config.js
     |-- vite.config.js

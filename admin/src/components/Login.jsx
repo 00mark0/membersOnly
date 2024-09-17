@@ -5,10 +5,12 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
     try {
       const response = await axios.post("http://localhost:3000/auth/login", {
         username,
@@ -18,11 +20,11 @@ const Login = () => {
         localStorage.setItem("token", response.data.token);
         navigate("/dashboard");
       } else {
-        alert("Access denied. Admins only.");
+        setError("Access denied. Admins only.");
       }
     } catch (error) {
       console.error("Login error:", error);
-      alert("Login failed. Please try again.");
+      setError("Login failed. Please try again.");
     }
   };
 
@@ -30,6 +32,7 @@ const Login = () => {
     <div className="container mx-auto p-4">
       <h2 className="text-2xl font-bold mb-4">Admin Login</h2>
       <form onSubmit={handleLogin}>
+        {error && <p className="text-red-500 mb-4">{error}</p>}
         <div className="mb-4">
           <label className="block text-gray-700">Username</label>
           <input

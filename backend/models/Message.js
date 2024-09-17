@@ -30,7 +30,7 @@ const Message = {
   },
   updateMessage: async (id, content) => {
     const result = await pool.query(
-      "UPDATE messages SET content = $1 WHERE id = $2 RETURNING *",
+      "UPDATE messages SET content = $1, is_edited = TRUE WHERE id = $2 RETURNING *",
       [content, id]
     );
     return result.rows[0];

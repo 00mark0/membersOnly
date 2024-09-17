@@ -98,9 +98,9 @@ const Users = () => {
       <table className="min-w-full bg-white">
         <thead>
           <tr>
-            <th className="py-2">ID</th>
-            <th className="py-2">Username</th>
-            <th className="py-2">Actions</th>
+            <th className="py-2 text-center">ID</th>
+            <th className="py-2 text-center">Username</th>
+            <th className="py-2 text-center">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -110,9 +110,9 @@ const Users = () => {
               onClick={() => handleUserClick(user.id)}
               className="cursor-pointer"
             >
-              <td className="border px-4 py-2">{user.id}</td>
-              <td className="border px-4 py-2">{user.username}</td>
-              <td className="border px-4 py-2">
+              <td className="border px-4 py-2 text-center">{user.id}</td>
+              <td className="border px-4 py-2 text-center">{user.username}</td>
+              <td className="border px-4 py-2 text-center">
                 <button
                   className="bg-red-500 text-white p-2 rounded"
                   onClick={(e) => {

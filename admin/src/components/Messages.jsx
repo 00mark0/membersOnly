@@ -94,17 +94,23 @@ const Messages = () => {
       <table className="min-w-full bg-white">
         <thead>
           <tr>
-            <th className="py-2">ID</th>
-            <th className="py-2">Content</th>
-            <th className="py-2">Actions</th>
+            <th className="py-2 text-center">ID</th>
+            <th className="py-2 text-center">Content</th>
+            <th className="py-2 text-center">Created At</th>
+            <th className="py-2 text-center">Actions</th>
           </tr>
         </thead>
         <tbody>
           {messages.map((message) => (
             <tr key={message.id}>
-              <td className="border px-4 py-2">{message.id}</td>
-              <td className="border px-4 py-2">{message.content}</td>
-              <td className="border px-4 py-2">
+              <td className="border px-4 py-2 text-center">{message.id}</td>
+              <td className="border px-4 py-2 text-center">
+                {message.content}
+              </td>
+              <td className="border px-4 py-2 text-center">
+                {new Date(message.created_at).toLocaleString()}
+              </td>
+              <td className="border px-4 py-2 text-center">
                 <button
                   className="bg-red-500 text-white p-2 rounded"
                   onClick={() => handleDeleteMessage(message.id)}

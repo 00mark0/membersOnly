@@ -4,7 +4,7 @@ import pool from "../config/db.js";
 const Message = {
   create: async (userId, content) => {
     const result = await pool.query(
-      "INSERT INTO messages (user_id, content) VALUES ($1, $2) RETURNING *",
+      "INSERT INTO messages (user_id, content, created_at) VALUES ($1, $2, DEFAULT) RETURNING *",
       [userId, content]
     );
     return result.rows[0];
@@ -23,7 +23,9 @@ const Message = {
     return result.rows;
   },
   findAll: async () => {
-    const result = await pool.query("SELECT * FROM messages");
+    const result = await pool.query(
+      "SELECT messages.*, users.username FROM messages JOIN users ON messages.user_id = users.id"
+    );
     return result.rows;
   },
   updateMessage: async (id, content) => {

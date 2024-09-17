@@ -6,6 +6,7 @@ import {
   updateMessage,
   getMessagesByUserId,
   deleteAllMessages,
+  getAllMessages,
 } from "../controllers/messageController.js";
 import { isAuthenticated, isAdmin } from "../middleware/auth.js";
 
@@ -15,6 +16,7 @@ router.post("/", isAuthenticated, createMessage);
 router.put("/:id", isAuthenticated, updateMessage);
 router.delete("/:id", isAuthenticated, deleteMessage);
 router.get("/user/:userId", isAuthenticated, getMessagesByUserId);
+router.get("/", getAllMessages);
 
 // Admin routes
 router.delete("/all", isAdmin, deleteAllMessages);

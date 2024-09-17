@@ -13,6 +13,15 @@ export const createMessage = async (req, res) => {
   }
 };
 
+export const getAllMessages = async (req, res) => {
+  try {
+    const messages = await Message.findAll();
+    res.status(200).json(messages);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 // Update a message
 export const updateMessage = async (req, res) => {
   try {
@@ -40,21 +49,13 @@ export const deleteMessage = async (req, res) => {
 export const getMessagesByUserId = async (req, res) => {
   try {
     const { userId } = req.params;
-    const requesterId = req.user.id;
-    const isAdmin = req.user.isAdmin;
-
-    if (isAdmin || requesterId === parseInt(userId, 10)) {
-      const messages = await Message.findByUserId(userId);
-      res.status(200).json(messages);
-    } else {
-      res
-        .status(403)
-        .json({ error: "You are not authorized to view these messages." });
-    }
+    const messages = await Message.findByUserId(userId);
+    res.status(200).json(messages);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
+
 // Admin: Delete all messages
 export const deleteAllMessages = async (req, res) => {
   try {

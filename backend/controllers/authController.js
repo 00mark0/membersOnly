@@ -1,12 +1,40 @@
 // backend/controllers/authController.js
 import User from "../models/User.js";
+import jwt from "jsonwebtoken";
 
 // Register a new user
 export const register = async (req, res) => {
   try {
-    const { username, password, isAdmin } = req.body;
-    const user = await User.create(username, password, isAdmin);
-    res.status(201).json(user);
+    const { username, email, password, confirmPassword } = req.body;
+
+    if (password !== confirmPassword) {
+      return res.status(400).json({ message: "Passwords do not match" });
+    }
+
+    const existingUser = await User.findByUsername(username);
+    if (existingUser) {
+      return res.status(400).json({ message: "Username already taken" });
+    }
+
+    const existingEmail = await User.findByEmail(email);
+    if (existingEmail) {
+      return res.status(400).json({ message: "Email already registered" });
+    }
+
+    const user = await User.create(username, email, password);
+
+    const token = jwt.sign(
+      { id: user.id, username: user.username },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1h",
+      }
+    );
+
+    res.status(201).json({
+      token,
+      user: { id: user.id, username: user.username, email: user.email },
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

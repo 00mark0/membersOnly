@@ -11,6 +11,7 @@ import "./config/passport.js";
 import dotenv from "dotenv";
 import errorHandler from "./middleware/errorHandler.js";
 import helmet from "helmet";
+import MongoStore from "connect-mongo";
 
 dotenv.config();
 
@@ -31,6 +32,10 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGO_URI,
+      collectionName: "sessions",
+    }),
   })
 );
 app.use(passport.initialize());

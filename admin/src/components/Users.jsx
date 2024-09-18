@@ -51,7 +51,7 @@ const Users = () => {
 
       // Make a DELETE request to delete the user
       await axios.delete(
-        `https://membersonly-ogkg.onrender.com/admin/user/${id}`,
+        `https://membersonly-ogkg.onrender.com/admin/users/${id}`,
         {
           headers: { Authorization: `Bearer ${token}` }, // Set the Authorization header with the token
         }
@@ -127,7 +127,7 @@ const Users = () => {
       <div className="flex justify-between items-center mb-4">
         <input
           type="text"
-          placeholder="Search by ID or Username"
+          placeholder="Search by ID, Username, or Email"
           value={search}
           onChange={handleSearch} // Call handleSearch on input change
           className="mb-4 p-2 border rounded"
@@ -146,6 +146,7 @@ const Users = () => {
           <tr>
             <th className="py-2 text-center">ID</th>
             <th className="py-2 text-center">Username</th>
+            <th className="py-2 text-center">Email</th>
             <th className="py-2 text-center">Actions</th>
           </tr>
         </thead>
@@ -158,6 +159,7 @@ const Users = () => {
             >
               <td className="border px-4 py-2 text-center">{user.id}</td>
               <td className="border px-4 py-2 text-center">{user.username}</td>
+              <td className="border px-4 py-2 text-center">{user.email}</td>
               <td className="border px-4 py-2 text-center">
                 <button
                   className="bg-red-500 text-white p-2 rounded"

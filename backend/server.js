@@ -25,6 +25,16 @@ app.use(
     credentials: true,
   })
 );
+
+// Handle preflight requests
+app.options(
+  "*",
+  cors({
+    origin: [process.env.FRONTEND_URL, process.env.ADMIN_URL],
+    credentials: true,
+  })
+);
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(

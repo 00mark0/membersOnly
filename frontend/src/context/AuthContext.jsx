@@ -1,5 +1,6 @@
 // src/context/AuthContext.jsx
 import { createContext, useState, useContext, useEffect } from "react";
+import PropTypes from "prop-types"; // Import PropTypes for prop validation
 
 // Create a context for authentication
 const AuthContext = createContext();
@@ -40,6 +41,11 @@ export const AuthProvider = ({ children }) => {
       {children}
     </AuthContext.Provider>
   );
+};
+
+// Define PropTypes for the AuthProvider component
+AuthProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 // Custom hook to use the AuthContext

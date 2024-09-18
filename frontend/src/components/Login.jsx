@@ -16,12 +16,16 @@ function Login() {
     e.preventDefault(); // Prevent the default form submission behavior
     try {
       // Make a POST request to the login endpoint
-      const response = await axios.post("http://localhost:3000/auth/login", {
-        username,
-        password,
-      });
+      const response = await axios.post(
+        "https://membersonly-ogkg.onrender.com/auth/login",
+        {
+          username,
+          password,
+        }
+      );
       login(response.data); // Call the login function with the response data
-      navigate("/"); // Navigate to the home page
+      localStorage.setItem("token", response.data.token); // Store the token in localStorage
+      navigate("/dashboard"); // Navigate to the dashboard page
     } catch (err) {
       // Handle errors
       if (err.response && err.response.status === 401) {
@@ -66,7 +70,7 @@ function Login() {
       </form>
       <div className="mt-4">
         <p>
-          Don't have an account?{" "}
+          Don`t have an account?{" "}
           <Link to="/register" className="text-blue-500">
             Register here
           </Link>

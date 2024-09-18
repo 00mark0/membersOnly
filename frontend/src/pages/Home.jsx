@@ -15,7 +15,9 @@ function Home() {
     const fetchMessages = async () => {
       try {
         // Make a GET request to fetch messages
-        const response = await axios.get("http://localhost:3000/messages");
+        const response = await axios.get(
+          "https://membersonly-ogkg.onrender.com/messages"
+        );
         setMessages(response.data); // Update the messages state with the fetched data
       } catch (err) {
         // Handle errors

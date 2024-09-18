@@ -22,7 +22,7 @@ const Messages = () => {
 
         // Make a GET request to fetch user details
         const response = await axios.get(
-          `http://localhost:3000/admin/users/${userId}`, // Update the URL to match the new route
+          `https://membersonly-ogkg.onrender.com/admin/users/${userId}`, // Update the URL to match the new route
           {
             headers: { Authorization: `Bearer ${token}` }, // Set the Authorization header with the token
           }
@@ -47,7 +47,7 @@ const Messages = () => {
 
         // Make a GET request to fetch messages
         const response = await axios.get(
-          `http://localhost:3000/messages/user/${userId}`,
+          `https://membersonly-ogkg.onrender.com/messages/user/${userId}`,
           {
             headers: { Authorization: `Bearer ${token}` }, // Set the Authorization header with the token
           }
@@ -76,9 +76,12 @@ const Messages = () => {
       }
 
       // Make a DELETE request to delete the message
-      await axios.delete(`http://localhost:3000/admin/message/${messageId}`, {
-        headers: { Authorization: `Bearer ${token}` }, // Set the Authorization header with the token
-      });
+      await axios.delete(
+        `https://membersonly-ogkg.onrender.com/admin/message/${messageId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` }, // Set the Authorization header with the token
+        }
+      );
       setMessages(messages.filter((message) => message.id !== messageId)); // Update the messages state to remove the deleted message
     } catch (error) {
       console.error("Error deleting message:", error);
@@ -99,9 +102,12 @@ const Messages = () => {
       }
 
       // Make a DELETE request to delete all messages
-      await axios.delete("http://localhost:3000/admin/message/all", {
-        headers: { Authorization: `Bearer ${token}` }, // Set the Authorization header with the token
-      });
+      await axios.delete(
+        "https://membersonly-ogkg.onrender.com/admin/message/all",
+        {
+          headers: { Authorization: `Bearer ${token}` }, // Set the Authorization header with the token
+        }
+      );
       setMessages([]); // Clear the messages state
     } catch (error) {
       console.error("Error deleting all messages:", error);

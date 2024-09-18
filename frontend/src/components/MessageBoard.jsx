@@ -3,11 +3,13 @@ import { useState } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types"; // Import PropTypes for prop validation
 
 function MessageBoard({ messages, setMessages }) {
   const { user } = useAuth();
   const [editingMessageId, setEditingMessageId] = useState(null);
   const [editContent, setEditContent] = useState("");
+  const [error, setError] = useState(null); // State for storing error messages
 
   const handleEdit = (message) => {
     setEditingMessageId(message.id);
@@ -17,7 +19,7 @@ function MessageBoard({ messages, setMessages }) {
   const handleSave = async (messageId) => {
     try {
       const response = await axios.put(
-        `http://localhost:3000/messages/${messageId}`,
+        `https://membersonly-ogkg.onrender.com/messages/${messageId}`,
         { content: editContent },
         {
           headers: { Authorization: `Bearer ${user.token}` },
@@ -32,6 +34,7 @@ function MessageBoard({ messages, setMessages }) {
       setEditContent("");
     } catch (err) {
       console.error(err);
+      setError(err.response ? err.response.data.message : "An error occurred");
     }
   };
 
@@ -44,6 +47,8 @@ function MessageBoard({ messages, setMessages }) {
 
   return (
     <div>
+      {error && <div className="text-red-500 mb-4">{error}</div>}{" "}
+      {/* Display error message if any */}
       {sortedMessages.map((message) => (
         <div key={message.id} className="border p-4 mb-4">
           {editingMessageId === message.id ? (
@@ -94,5 +99,20 @@ function MessageBoard({ messages, setMessages }) {
     </div>
   );
 }
+
+// Define PropTypes for the MessageBoard component
+MessageBoard.propTypes = {
+  messages: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      content: PropTypes.string.isRequired,
+      created_at: PropTypes.string.isRequired,
+      is_edited: PropTypes.bool,
+      user_id: PropTypes.number.isRequired,
+      username: PropTypes.string,
+    })
+  ).isRequired,
+  setMessages: PropTypes.func.isRequired,
+};
 
 export default MessageBoard;

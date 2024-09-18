@@ -21,9 +21,12 @@ const Users = () => {
         }
 
         // Make a GET request to fetch users
-        const response = await axios.get("http://localhost:3000/admin/users", {
-          headers: { Authorization: `Bearer ${token}` }, // Set the Authorization header with the token
-        });
+        const response = await axios.get(
+          "https://membersonly-ogkg.onrender.com/admin/users",
+          {
+            headers: { Authorization: `Bearer ${token}` }, // Set the Authorization header with the token
+          }
+        );
         setUsers(response.data); // Update the users state with the fetched data
         setFilteredUsers(response.data); // Update the filteredUsers state with the fetched data
       } catch (error) {
@@ -47,9 +50,12 @@ const Users = () => {
       }
 
       // Make a DELETE request to delete the user
-      await axios.delete(`http://localhost:3000/admin/user/${id}`, {
-        headers: { Authorization: `Bearer ${token}` }, // Set the Authorization header with the token
-      });
+      await axios.delete(
+        `https://membersonly-ogkg.onrender.com/admin/user/${id}`,
+        {
+          headers: { Authorization: `Bearer ${token}` }, // Set the Authorization header with the token
+        }
+      );
       setUsers(users.filter((user) => user.id !== id)); // Update the users state to remove the deleted user
       setFilteredUsers(filteredUsers.filter((user) => user.id !== id)); // Update the filteredUsers state to remove the deleted user
     } catch (error) {
@@ -71,7 +77,7 @@ const Users = () => {
       }
 
       // Make a DELETE request to delete all users except the admin
-      await axios.delete("http://localhost:3000/admin/users", {
+      await axios.delete("https://membersonly-ogkg.onrender.com/admin/users", {
         headers: { Authorization: `Bearer ${token}` }, // Set the Authorization header with the token
       });
       setUsers(users.filter((user) => user.is_admin)); // Clear the users state except for admin

@@ -14,10 +14,13 @@ const Login = () => {
 
     try {
       // Make a POST request to the login endpoint
-      const response = await axios.post("http://localhost:3000/auth/login", {
-        username,
-        password,
-      });
+      const response = await axios.post(
+        "https://membersonly-ogkg.onrender.com/auth/login",
+        {
+          username,
+          password,
+        }
+      );
       if (response.data.isAdmin) {
         localStorage.setItem("token", response.data.token); // Store the token in localStorage
         navigate("/dashboard"); // Navigate to the dashboard page

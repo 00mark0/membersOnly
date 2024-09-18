@@ -17,7 +17,7 @@ function Profile() {
     const fetchMessages = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/messages/user/${id}`,
+          `https://membersonly-ogkg.onrender.com/messages/user/${id}`,
           {
             headers: { Authorization: `Bearer ${user.token}` }, // Include the user's token in the request headers
           }
@@ -33,9 +33,12 @@ function Profile() {
     // Function to fetch the profile user data
     const fetchUser = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/users/${id}`, {
-          headers: { Authorization: `Bearer ${user.token}` }, // Include the user's token in the request headers
-        });
+        const response = await axios.get(
+          `https://membersonly-ogkg.onrender.com/users/${id}`,
+          {
+            headers: { Authorization: `Bearer ${user.token}` }, // Include the user's token in the request headers
+          }
+        );
         setProfileUser(response.data); // Set the fetched user data to the state
       } catch (err) {
         setError(
@@ -61,25 +64,35 @@ function Profile() {
   // Function to handle the deletion of a message
   const handleDelete = async (messageId) => {
     try {
-      await axios.delete(`http://localhost:3000/messages/${messageId}`, {
-        headers: { Authorization: `Bearer ${user.token}` }, // Include the user's token in the request headers
-      });
+      await axios.delete(
+        `https://membersonly-ogkg.onrender.com/messages/${messageId}`,
+        {
+          headers: { Authorization: `Bearer ${user.token}` }, // Include the user's token in the request headers
+        }
+      );
       setMessages(messages.filter((message) => message.id !== messageId)); // Remove the deleted message from the state
     } catch (err) {
-      setError(err.response ? err.response.data.message : "An error occurred"); // Set the error message if the request fails
+      setError(
+        err.response ? err.response.data.message : "An error occurred" // Set the error message if the request fails
+      );
     }
   };
 
   // Function to handle the deletion of the user's account
   const handleDeleteAccount = async () => {
     try {
-      await axios.delete(`http://localhost:3000/users/deleteAccount`, {
-        headers: { Authorization: `Bearer ${user.token}` }, // Include the user's token in the request headers
-      });
+      await axios.delete(
+        `https://membersonly-ogkg.onrender.com/users/deleteAccount`,
+        {
+          headers: { Authorization: `Bearer ${user.token}` }, // Include the user's token in the request headers
+        }
+      );
       logout(); // Log the user out after deleting the account
       navigate("/"); // Redirect to the home page
     } catch (err) {
-      setError(err.response ? err.response.data.message : "An error occurred"); // Set the error message if the request fails
+      setError(
+        err.response ? err.response.data.message : "An error occurred" // Set the error message if the request fails
+      );
     }
   };
 
@@ -90,7 +103,7 @@ function Profile() {
   return (
     <div className="container mx-auto p-4">
       <h2 className="text-2xl font-bold mb-4">
-        {profileUser ? profileUser.username : "User"}'s Messages
+        {profileUser ? profileUser.username : "User"}`s Messages
       </h2>
       {error && <div className="text-red-500 mb-4">{error}</div>}{" "}
       {/* Display any error messages */}

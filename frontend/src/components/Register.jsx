@@ -35,7 +35,7 @@ function Register() {
 
     try {
       // Make a POST request to the register endpoint
-      await axios.post("http://localhost:3000/auth/register", {
+      await axios.post("https://membersonly-ogkg.onrender.com/auth/register", {
         username,
         email,
         password,

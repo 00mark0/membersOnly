@@ -43,6 +43,7 @@
         |-- messages.js
         |-- users.js
     |-- scripts
+        |-- generateSessionSecret.js
         |-- initDb.js
     |-- server.js
 |-- frontend
